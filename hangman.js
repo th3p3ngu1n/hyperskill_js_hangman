@@ -8,8 +8,10 @@ const lostMessage = "You lost!"
 const wordsToGuess = ["python", "java", "swift", "javascript"];
 const wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)];
 
+const wordToShow = wordToGuess.substring(0, 3) + '-'.repeat(wordToGuess.length - 3);
+
 console.log(hangman.join(" "));
 
-let guess = () => input("Guess the word: ");
+let guess = () => input(`Guess the word ${wordToShow}: `);
 let checkGuess = (guess) => guess === wordToGuess ? survivedMessage : lostMessage;
 console.log(checkGuess(guess()));

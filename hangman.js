@@ -3,15 +3,30 @@
 // You will need this in the following stages
 const input = require('sync-input')
 const hangman = ["H", "A", "N", "G", "M", "A", "N"];
-const survivedMessage = "You survived!";
-const lostMessage = "You lost!"
 const wordsToGuess = ["python", "java", "swift", "javascript"];
 const wordToGuess = wordsToGuess[Math.floor(Math.random() * wordsToGuess.length)];
-
-const wordToShow = wordToGuess.substring(0, 3) + '-'.repeat(wordToGuess.length - 3);
+let attemptsLeft = 8;
+let letters = "-".repeat(wordToGuess.length);
 
 console.log(hangman.join(" "));
 
-let guess = () => input(`Guess the word ${wordToShow}: `);
-let checkGuess = (guess) => guess === wordToGuess ? survivedMessage : lostMessage;
-console.log(checkGuess(guess()));
+let getLetter = () => input(`
+${letters}
+Input a letter: `);
+
+let replaceCharacter = (string, index, replacement) => string.substring(0, index) + replacement + string.substring(index + 1);
+
+while (attemptsLeft > 0) {
+    let letter = getLetter();
+    if (!wordToGuess.includes(letter)) {
+        console.log("That letter doesn't appear in the word.");
+    } else {
+        for (let index = 0; index < wordToGuess.length; index++) {
+            if (letter === wordToGuess[index]) {
+                letters = replaceCharacter(letters, index, letter);
+            }
+        }
+    }
+    attemptsLeft--;
+}
+console.log("\nThanks for playing!");
